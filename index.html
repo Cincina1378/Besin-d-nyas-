@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff941f">
+<title>Besin Dünyası</title>
+<style>
+:root {
+  --orange: #ff941f;
+  --orange-dark: #e87500;
+  --cream: #fff8e9;
+  --ink: #38291e;
+  --protein: #f04444;
+  --water: #3498ff;
+  --fat: #ffd83d;
+  --carbs: #ffffff;
+  --minerals: #ff8b35;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  background-color: var(--orange);
+  background-image:
+    radial-gradient(circle at 10% 15%, #ffffff30 0 3px, transparent 4px),
+    radial-gradient(circle at 85% 35%, #ffffff25 0 4px, transparent 5px),
+    radial-gradient(circle at 35% 85%, #ffffff25 0 3px, transparent 4px);
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff8e9f2;
+  border-bottom: 3px solid var(--ink);
+  padding: 12px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand {
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 1000;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #ffcb57;
+  transform: rotate(-5deg);
+  font-size: 24px;
+}
+nav { display: flex; flex-wrap: wrap; gap: 7px; }
+nav button {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  padding: 9px 13px;
+  color: var(--ink);
+  background: transparent;
+  font-weight: 800;
+}
+nav button:hover, nav button.active {
+  background: #ffce67;
+  border-color: var(--ink);
+}
+main { max-width: 1150px; margin: auto; padding: 26px 18px 60px; }
+.page { display: none; }
+.page.active { display: block; animation: appear .25s ease; }
+@keyframes appear {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.paper {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 25px;
+  box-shadow: 7px 7px 0 #38291e28;
+  padding: clamp(20px, 4vw, 42px);
+}
+.hero {
+  min-height: 350px;
+  display: grid;
+  grid-template-columns: 1.4fr .8fr;
+  gap: 20px;
+  align-items: center;
+  overflow: hidden;
+}
+.eyebrow {
+  display: inline-block;
+  background: #ffe5a4;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 900;
+  font-size: .83rem;
+}
+h1 { font-size: clamp(2.4rem, 7vw, 4.8rem); line-height: .98; margin: 20px 0; letter-spacing: -2px; }
+h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin: 0 0 12px; }
+h3 { margin: 0 0 8px; }
+p { line-height: 1.65; }
+.hero p { font-size: 1.08rem; max-width: 560px; }
+.hero-art {
+  min-height: 235px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.food-orbit {
+  width: min(260px, 75vw);
+  aspect-ratio: 1;
+  border: 3px dashed var(--ink);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ffe3a1;
+  font-size: clamp(5rem, 14vw, 8rem);
+  transform: rotate(-8deg);
+}
+.doodle {
+  position: absolute;
+  font-size: 2rem;
+  font-weight: 1000;
+}
+.doodle.one { top: 8px; right: 12px; transform: rotate(15deg); }
+.doodle.two { bottom: 4px; left: 12px; transform: rotate(-15deg); }
+.doodle.three { top: 35%; left: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.btn {
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 12px 18px;
+  background: #ffca55;
+  color: var(--ink);
+  font-weight: 900;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.dark { background: var(--ink); color: white; }
+.btn.light { background: white; }
+.section-heading { margin: 30px 0 16px; }
+.section-heading p { margin: 4px 0 0; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+.feature {
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  padding: 20px;
+  min-height: 170px;
+}
+.feature .emoji { font-size: 2.3rem; display: block; margin-bottom: 12px; }
+.feature p { margin-bottom: 0; }
+.page-title { margin-bottom: 22px; }
+.page-title p { max-width: 700px; margin-bottom: 0; }
+.group-grid { margin-top: 22px; }
+.group-card {
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: 20px;
+  padding: 19px;
+}
+.group-card .emoji { font-size: 2.5rem; }
+.group-card p { margin: 7px 0; }
+.group-card .examples { font-size: .91rem; font-weight: 800; }
+.color-strip { height: 10px; border: 1px solid var(--ink); border-radius: 99px; margin: 12px 0; }
+.food-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 20px 0;
+}
+.search {
+  flex: 1;
+  min-width: 180px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: white;
+  padding: 12px 14px;
+}
+select {
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 12px;
+  background: white;
+  color: var(--ink);
+  max-width: 100%;
+}
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+.food-card {
+  text-align: left;
+  background: white;
+  border: 2px solid var(--ink);
+  border-radius: 19px;
+  padding: 17px;
+  color: var(--ink);
+  transition: transform .15s;
+  min-width: 0;
+}
+.food-card:hover { transform: translateY(-4px) rotate(-.5deg); }
+.food-emoji {
+  min-height: 105px;
+  border: 2px dashed #38291e50;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #fff4d7;
+  font-size: 3.7rem;
+  margin-bottom: 12px;
+}
+.food-card h3 { font-size: 1.15rem; }
+.food-card small { color: #6b5949; }
+.mini-bars { display: grid; gap: 5px; margin-top: 12px; }
+.mini-bar { height: 7px; border: 1px solid #38291e60; border-radius: 99px; overflow: hidden; background: #eee; }
+.mini-bar span { display: block; height: 100%; }
+.hint { background: #ffedbd; border: 2px dashed var(--ink); border-radius: 14px; padding: 14px; }
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #21180fd9;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.modal.open { display: flex; }
+.modal-content {
+  width: min(650px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 23px;
+  padding: 25px;
+  position: relative;
+}
+.close {
+  position: sticky;
+  top: 0;
+  float: right;
+  border: 2px solid var(--ink);
+  background: #ffcf68;
+  border-radius: 12px;
+  width: 42px;
+  height: 42px;
+  font-size: 1.3rem;
+  font-weight: 1000;
+}
+.detail-emoji { font-size: 5rem; margin: 12px 0; }
+.nutrient-row { margin: 15px 0; }
+.nutrient-label { display: flex; justify-content: space-between; gap: 10px; font-weight: 900; margin-bottom: 5px; }
+.nutrient-bar { height: 17px; border: 2px solid var(--ink); border-radius: 99px; overflow: hidden; background: #eee; }
+.nutrient-fill { height: 100%; border-right: 1px solid #38291e80; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; }
+.legend span { border: 1px solid var(--ink); border-radius: 999px; padding: 6px 10px; font-size: .84rem; font-weight: 800; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+.sort-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 18px; margin-top: 20px; }
+.panel {
+  background: white;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  padding: 18px;
+  min-width: 0;
+}
+.food-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.food-option {
+  border: 2px solid #b5a28e;
+  border-radius: 12px;
+  background: #fffaf0;
+  padding: 10px 8px;
+  text-align: left;
+  font-weight: 800;
+}
+.food-option.selected { border-color: var(--ink); background: #ffe19a; }
+.food-option:disabled { opacity: .45; cursor: not-allowed; }
+.result-list { padding-left: 0; list-style: none; counter-reset: rank; }
+.result-list li {
+  counter-increment: rank;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: #fff8e9;
+}
+.result-list li::before {
+  content: counter(rank);
+  background: #ffcb55;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  display: grid;
+  place-items: center;
+  font-weight: 1000;
+}
+.result-list .value { margin-left: auto; font-weight: 900; white-space: nowrap; }
+.nutrient-grid { margin-top: 20px; }
+.nutrient-card {
+  background: white;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  padding: 19px;
+}
+.top-three { padding-left: 22px; line-height: 1.8; }
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  font-weight: 800;
+}
+.back-home {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 15;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--ink);
+  padding: 11px 15px;
+  font-weight: 900;
+  box-shadow: 3px 3px 0 #38291e50;
+}
+.empty { padding: 20px; text-align: center; }
+@media (max-width: 760px) {
+  header { position: static; }
+  header { align-items: flex-start; }
+  nav { width: 100%; }
+  nav button { padding: 8px 10px; font-size: .88rem; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-art { min-height: 200px; }
+  .food-orbit { width: 190px; }
+  .grid, .food-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sort-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 430px) {
+  main { padding: 15px 10px 55px; }
+  .paper { padding: 19px; }
+  .grid, .food-grid { grid-template-columns: 1fr; }
+  .food-emoji { min-height: 90px; }
+  .food-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  h1 { letter-spacing: -1px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <button class="brand" onclick="goHome()" aria-label="Besin Dünyası ana sayfa">
+    <span class="brand-icon">✎</span>
+    <span>Besin Dünyası</span>
+  </button>
+  <nav aria-label="Ana menü">
+    <button class="active" data-page="home" onclick="showPage('home')">⌂ Ana Sayfa</button>
+    <button data-page="groups" onclick="showPage('groups')">Besin Gruplarını Tanı</button>
+    <button data-page="foods" onclick="showPage('foods')">Besinler</button>
+    <button data-page="categories" onclick="showPage('categories')">Kategoriler</button>
+    <button data-page="learn" onclick="showPage('learn')">Tanı</button>
+  </nav>
+</header>
+
+<main>
+  <section class="page active" id="home">
+    <div class="paper hero">
+      <div>
+        <span class="eyebrow">✦ KEŞFET • ÖĞREN • SIRALA ✦</span>
+        <h1>Besin<br>Dünyası!</h1>
+        <p>Besinleri tanı, içerdikleri besin öğelerini keşfet ve kendi besin sıralamanı oluştur. Öğrenmek hiç bu kadar eğlenceli olmamıştı!</p>
+        <div class="actions">
+          <button class="btn dark" onclick="showPage('foods')">Besinleri keşfet →</button>
+          <button class="btn" onclick="showPage('groups')">Besin gruplarını tanı</button>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Besin çizimleri">
+        <span class="doodle one">✧</span>
+        <span class="doodle two">〰</span>
+        <span class="doodle three">✎</span>
+        <div class="food-orbit">🍎🥕🥛</div>
+      </div>
+    </div>
+
+    <div class="section-heading">
+      <h2>Hadi keşfe başlayalım! ✏️</h2>
+      <p>İstediğin bölümü seç ve besinler hakkında yeni bilgiler öğren.</p>
+    </div>
+    <div class="grid">
+      <article class="feature">
+        <span class="emoji">🥦</span>
+        <h3>Besin Gruplarını Tanı</h3>
+        <p>Besin öğelerini ve vücudumuz için önemlerini öğren.</p>
+        <button class="btn" onclick="showPage('groups')">Grupları gör →</button>
+      </article>
+      <article class="feature">
+        <span class="emoji">🍓</span>
+        <h3>Besinler</h3>
+        <p>Besin kartlarına tıklayarak içeriklerini ayrıntılı incele.</p>
+        <button class="btn" onclick="showPage('foods')">Besinleri gör →</button>
+      </article>
+      <article class="feature">
+        <span class="emoji">🏆</span>
+        <h3>Kategoriler / Sıralamanı yap</h3>
+        <p>En az üç besin seç ve istediğin besin öğesine göre sırala.</p>
+        <button class="btn" onclick="showPage('categories')">Sıralama yap →</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="page" id="groups">
+    <div class="paper">
+      <div class="page-title">
+        <span class="eyebrow">BÖLÜM 01 • ÖĞREN</span>
+        <h2 style="margin-top:16px">Besin Gruplarını Tanı 🥗</h2>
+        <p>Besinler farklı besin öğelerini farklı miktarlarda içerir. Her öğenin vücudumuzda ayrı bir görevi vardır.</p>
+      </div>
+      <div class="grid group-grid" id="groupGrid"></div>
+      <div class="hint" style="margin-top:20px">
+        <strong>💡 Unutma:</strong> Bir besin birden fazla besin öğesi içerebilir. Buradaki renkli çubuklar öğrenmeyi kolaylaştıran yaklaşık karşılaştırmalardır; laboratuvar ölçümü değildir.
+      </div>
+      <div class="actions">
+        <button class="btn dark" onclick="showPage('foods')">Besinleri incele →</button>
+        <button class="btn light" onclick="goHome()">⌂ Ana sayfa</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="foods">
+    <div class="paper">
+      <div class="page-title">
+        <span class="eyebrow">BÖLÜM 02 • KEŞFET</span>
+        <h2 style="margin-top:16px">Besinler 🍎</h2>
+        <p>Bir besin kartına dokun. Besin öğelerini, kısa açıklamasını ve renkli çubuklarını görebilirsin.</p>
+      </div>
+      <div class="food-tools">
+        <input class="search" id="foodSearch" type="search" placeholder="🔎 Besin ara..." aria-label="Besin ara">
+        <select id="foodFilter" aria-label="Besin grubuna göre filtrele">
+          <option value="all">Tüm besinler</option>
+          <option value="protein">Protein içerenler</option>
+          <option value="water">Su içerenler</option>
+          <option value="fat">Yağ içerenler</option>
+          <option value="carbs">Karbonhidrat içerenler</option>
+          <option value="minerals">Mineral içerenler</option>
+        </select>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--protein)"></i>Protein</span>
+        <span><i style="background:var(--water)"></i>Su</span>
+        <span><i style="background:var(--fat)"></i>Yağ</span>
+        <span><i style="background:var(--carbs)"></i>Karbonhidrat</span>
+        <span><i style="background:var(--minerals)"></i>Mineraller</span>
+      </div>
+      <div class="food-grid" id="foodGrid"></div>
+      <div class="actions">
+        <button class="btn light" onclick="goHome()">⌂ Ana sayfa</button>
+        <button class="btn dark" onclick="showPage('categories')">Sıralama yap →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="categories">
+    <div class="paper">
+      <div class="page-title">
+        <span class="eyebrow">BÖLÜM 03 • KENDİNİ DENE</span>
+        <h2 style="margin-top:16px">Kategoriler / Sıralamanı yap 🏆</h2>
+        <p>En az 3, en fazla 6 besin seç. Sonra hangi besin öğesine göre sıralama yapmak istediğini belirle.</p>
+      </div>
+      <div class="hint">
+        <strong>Nasıl oynanır?</strong><br>
+        1. Listeden en az 3 besin seç.<br>
+        2. Sıralamak istediğin besin öğesini belirle.<br>
+        3. “Sıralamamı oluştur” düğmesine bas. Sonuçlar büyük değerden küçük değere gösterilir.
+      </div>
+      <div class="sort-layout">
+        <div class="panel">
+          <h3>✏️ Besinlerini seç</h3>
+          <p id="selectedCount">0 / 6 besin seçildi</p>
+          <input class="search" id="sortSearch" type="search" placeholder="Besin ara..." aria-label="Sıralama için besin ara" style="width:100%;min-width:0">
+          <div class="food-options" id="foodOptions"></div>
+          <button class="btn light" onclick="clearSelection()">Seçimleri temizle</button>
+        </div>
+        <div class="panel">
+          <h3>📊 Sıralama ölçütü</h3>
+          <p>Hangi besin öğesini karşılaştırmak istiyorsun?</p>
+          <select id="sortNutrient" style="width:100%">
+            <option value="protein">🔴 Protein</option>
+            <option value="water">🔵 Su</option>
+            <option value="fat">🟡 Yağ</option>
+            <option value="carbs">⚪ Karbonhidrat</option>
+            <option value="minerals">🟠 Mineraller</option>
+          </select>
+          <div class="actions">
+            <button class="btn dark" onclick="makeRanking()">Sıralamamı oluştur →</button>
+          </div>
+          <div id="rankingResult" aria-live="polite">
+            <p class="empty">Besinlerini seçtiğinde sıralaman burada görünecek.</p>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn light" onclick="goHome()">⌂ Ana sayfa</button>
+        <button class="btn" onclick="showPage('learn')">Besin öğelerini tanı →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="learn">
+    <div class="paper">
+      <div class="page-title">
+        <span class="eyebrow">BÖLÜM 04 • BİLGİNİ ARTIR</span>
+        <h2 style="margin-top:16px">Tanı: Besin Öğeleri 📚</h2>
+        <p>Protein, su, yağ, karbonhidrat ve minerallerin görevlerini öğren. Her başlıkta üç besin örneği bulabilirsin.</p>
+      </div>
+      <div class="grid nutrient-grid" id="nutrientGrid"></div>
+      <div class="hint" style="margin-top:20px">
+        <strong>⭐ Sağlıklı beslenme notu:</strong> Tek bir besin bütün ihtiyaçlarımızı karşılamaz. Farklı besinlerden oluşan dengeli ve çeşitli bir beslenme önemlidir.
+      </div>
+      <div class="actions">
+        <button class="btn dark" onclick="showPage('foods')">Besinleri keşfet →</button>
+        <button class="btn light" onclick="goHome()">⌂ Ana sayfa</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>✎ Besin Dünyası • Öğrenerek keşfet! 🍎</footer>
+<button class="back-home" onclick="goHome()" title="Ana sayfaya dön">⌂ Ana sayfa</button>
+
+<div class="modal" id="foodModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onclick="outsideModal(event)">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()" aria-label="Pencereyi kapat">×</button>
+    <div id="modalBody"></div>
+    <div class="actions">
+      <button class="btn dark" onclick="closeModal()">Kapat</button>
+      <button class="btn light" onclick="closeModal();showPage('foods')">Besinlere dön</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const nutrients = {
+  protein: {
+    name: "Protein", color: "#f04444", emoji: "🔴",
+    description: "Protein; büyüme, kasların gelişmesi ve vücudun doku onarımı için gerekli bir besin öğesidir.",
+    examples: ["Yumurta", "Mercimek", "Tavuk"]
+  },
+  water: {
+    name: "Su", color: "#3498ff", emoji: "🔵",
+    description: "Su; vücut sıcaklığının düzenlenmesine, maddelerin taşınmasına ve normal vücut işlevlerinin sürmesine yardımcı olur.",
+    examples: ["Salatalık", "Karpuz", "Su"]
+  },
+  fat: {
+    name: "Yağ", color: "#ffd83d", emoji: "🟡",
+    description: "Yağlar enerji sağlar, bazı vitaminlerin emilimine yardımcı olur ve hücrelerin normal işlevlerinde rol oynar.",
+    examples: ["Zeytinyağı", "Ceviz", "Avokado"]
+  },
+  carbs: {
+    name: "Karbonhidrat", color: "#ffffff", emoji: "⚪",
+    description: "Karbonhidratlar vücudun önemli enerji kaynaklarından biridir. Ekmek, tahıl, meyve ve baklagillerde bulunur.",
+    examples: ["Ekmek", "Pirinç", "Patates"]
+  },
+  minerals: {
+    name: "Mineraller", color: "#ff8b35", emoji: "🟠",
+    description: "Mineraller kemiklerin, dişlerin, kasların ve sinir sisteminin normal işlevlerine katkıda bulunur. Kalsiyum ve demir bunlara örnektir.",
+    examples: ["Süt", "Ispanak", "Mercimek"]
+  }
+};
+
+const foods = [
+  {id:"egg",name:"Yumurta",emoji:"🥚",group:"protein",description:"Protein bakımından zengin bir besindir. Ayrıca yağ ve çeşitli vitaminler içerir.",values:{protein:13,water:76,fat:10,carbs:1,minerals:2}},
+  {id:"chicken",name:"Tavuk",emoji:"🍗",group:"protein",description:"Protein kaynağıdır. İçeriği pişirme şekline ve kullanılan parçaya göre değişebilir.",values:{protein:27,water:65,fat:7,carbs:0,minerals:1}},
+  {id:"lentil",name:"Mercimek",emoji:"🫘",group:"protein",description:"Bitkisel protein, lif ve çeşitli mineraller sağlayan bir baklagildir.",values:{protein:9,water:70,fat:1,carbs:20,minerals:2}},
+  {id:"milk",name:"Süt",emoji:"🥛",group:"minerals",description:"Su, protein, yağ ve karbonhidrat içerir. Kalsiyum kaynağı olarak da bilinir.",values:{protein:3,water:87,fat:4,carbs:5,minerals:1}},
+  {id:"yogurt",name:"Yoğurt",emoji:"🥣",group:"protein",description:"Protein ve kalsiyum içerebilen bir süt ürünüdür. Besin değerleri çeşidine göre değişir.",values:{protein:5,water:85,fat:3,carbs:7,minerals:1}},
+  {id:"cheese",name:"Peynir",emoji:"🧀",group:"protein",description:"Protein ve kalsiyum içerebilir. Yağ ve tuz miktarı peynirin çeşidine göre değişir.",values:{protein:20,water:45,fat:25,carbs:2,minerals:3}},
+  {id:"apple",name:"Elma",emoji:"🍎",group:"carbs",description:"Su ve karbonhidrat içerir; ayrıca lif kaynağıdır.",values:{protein:0,water:86,fat:0,carbs:14,minerals:1}},
+  {id:"banana",name:"Muz",emoji:"🍌",group:"carbs",description:"Karbonhidrat içerir ve potasyum gibi mineraller sağlar.",values:{protein:1,water:75,fat:0,carbs:23,minerals:1}},
+  {id:"watermelon",name:"Karpuz",emoji:"🍉",group:"water",description:"Su oranı yüksek bir meyvedir. Ayrıca az miktarda karbonhidrat içerir.",values:{protein:1,water:92,fat:0,carbs:8,minerals:1}},
+  {id:"cucumber",name:"Salatalık",emoji:"🥒",group:"water",description:"Su oranı yüksek, ferahlatıcı bir sebzedir.",values:{protein:1,water:96,fat:0,carbs:4,minerals:1}},
+  {id:"carrot",name:"Havuç",emoji:"🥕",group:"minerals",description:"Lif ve beta-karoten içerir. Beta-karoten vücutta A vitaminine dönüştürülebilir.",values:{protein:1,water:88,fat:0,carbs:10,minerals:1}},
+  {id:"spinach",name:"Ispanak",emoji:"🥬",group:"minerals",description:"Folat, demir ve başka mikro besinler içeren yeşil yapraklı bir sebzedir.",values:{protein:3,water:91,fat:0,carbs:4,minerals:2}},
+  {id:"bread",name:"Ekmek",emoji:"🍞",group:"carbs",description:"Özellikle karbonhidrat sağlar. Tam tahıllı çeşitleri daha fazla lif içerebilir.",values:{protein:9,water:35,fat:3,carbs:49,minerals:2}},
+  {id:"rice",name:"Pirinç",emoji:"🍚",group:"carbs",description:"Karbonhidrat kaynağıdır. Pişmiş pirincin su oranı kuru pirince göre daha yüksektir.",values:{protein:3,water:68,fat:1,carbs:28,minerals:1}},
+  {id:"potato",name:"Patates",emoji:"🥔",group:"carbs",description:"Karbonhidrat ve potasyum içerir. Hazırlama yöntemi besin değerlerini etkiler.",values:{protein:2,water:79,fat:0,carbs:17,minerals:1}},
+  {id:"oliveoil",name:"Zeytinyağı",emoji:"🫒",group:"fat",description:"Yağ bakımından zengin bir besindir. Çoğunlukla tekli doymamış yağlar içerir.",values:{protein:0,water:0,fat:100,carbs:0,minerals:0}},
+  {id:"walnut",name:"Ceviz",emoji:"🌰",group:"fat",description:"Yağ, bitkisel protein ve lif içerir.",values:{protein:15,water:4,fat:65,carbs:14,minerals:3}},
+  {id:"avocado",name:"Avokado",emoji:"🥑",group:"fat",description:"Yağ ve lif içeren bir meyvedir; potasyum da sağlar.",values:{protein:2,water:73,fat:15,carbs:9,minerals:1}},
+  {id:"salmon",name:"Somon",emoji:"🐟",group:"protein",description:"Protein içerir; yağlı somon türleri omega-3 yağ asitleri de sağlar.",values:{protein:20,water:65,fat:13,carbs:0,minerals:2}},
+  {id:"orange",name:"Portakal",emoji:"🍊",group:"water",description:"Su, karbonhidrat ve C vitamini içerir.",values:{protein:1,water:87,fat:0,carbs:12,minerals:1}}
+];
+
+const groups = [
+  {key:"protein",emoji:"🥚",title:"Protein",desc:"Büyüme ve doku onarımına yardımcı olur.",examples:"Yumurta • Tavuk • Mercimek"},
+  {key:"water",emoji:"💧",title:"Su",desc:"Vücudun sıcaklığını düzenlemeye ve normal işlevlerine yardımcı olur.",examples:"Su • Salatalık • Karpuz"},
+  {key:"fat",emoji:"🫒",title:"Yağ",desc:"Enerji sağlar ve bazı vitaminlerin emilmesine yardımcı olur.",examples:"Zeytinyağı • Ceviz • Avokado"},
+  {key:"carbs",emoji:"🍞",title:"Karbonhidrat",desc:"Vücudun önemli enerji kaynaklarından biridir.",examples:"Ekmek • Pirinç • Patates"},
+  {key:"minerals",emoji:"🥬",title:"Mineraller",desc:"Kemik, diş, kas ve sinir sistemi işlevlerinde rol oynar.",examples:"Süt • Ispanak • Mercimek"}
+];
+
+let selectedFoods = new Set();
+let lastFocusedElement = null;
+
+function showPage(pageId) {
+  const target = document.getElementById(pageId);
+  if (!target) return;
+  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === pageId));
+  document.querySelectorAll("nav button[data-page]").forEach(b => b.classList.toggle("active", b.dataset.page === pageId));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function goHome() { showPage("home"); }
+function barColor(key) { return nutrients[key].color; }
+function safeText(value) {
+  return String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function renderGroups() {
+  document.getElementById("groupGrid").innerHTML = groups.map(g => `
+    <article class="group-card">
+      <div class="emoji">${g.emoji}</div>
+      <h3>${g.title}</h3>
+      <div class="color-strip" style="background:${barColor(g.key)}"></div>
+      <p>${g.desc}</p>
+      <p class="examples">${g.examples}</p>
+      <button class="btn" onclick="showPage('foods');document.getElementById('foodFilter').value='${g.key}';renderFoods()">Bu gruptaki besinler →</button>
+    </article>`).join("");
+}
+function makeMiniBars(food) {
+  return Object.keys(nutrients).map(key => `
+    <div class="mini-bar" title="${nutrients[key].name}">
+      <span style="width:${Math.min(food.values[key],100)}%;background:${barColor(key)}"></span>
+    </div>`).join("");
+}
+function renderFoods() {
+  const query = document.getElementById("foodSearch").value.trim().toLocaleLowerCase("tr");
+  const filter = document.getElementById("foodFilter").value;
+  const filtered = foods.filter(f => {
+    const matchesQuery = f.name.toLocaleLowerCase("tr").includes(query);
+    const matchesFilter = filter === "all" || f.values[filter] > 0;
+    return matchesQuery && matchesFilter;
+  });
+  const grid = document.getElementById("foodGrid");
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Bu aramayla eşleşen besin bulunamadı. Başka bir isim dene.</div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(f => `
+    <button class="food-card" onclick="openFood('${f.id}')" aria-label="${f.name} ayrıntılarını aç">
+      <div class="food-emoji">${f.emoji}</div>
+      <h3>${f.name}</h3>
+      <small>İçeriğini görmek için dokun →</small>
+      <div class="mini-bars">${makeMiniBars(f)}</div>
+    </button>`).join("");
+}
+function openFood(id) {
+  const food = foods.find(f => f.id === id);
+  if (!food) return;
+  lastFocusedElement = document.activeElement;
+  const bars = Object.keys(nutrients).map(key => {
+    const val = food.values[key];
+    return `<div class="nutrient-row">
+      <div class="nutrient-label"><span>${nutrients[key].emoji} ${nutrients[key].name}</span><span>${val}/100</span></div>
+      <div class="nutrient-bar"><div class="nutrient-fill" style="width:${val}%;background:${barColor(key)}"></div></div>
+    </div>`;
+  }).join("");
+  document.getElementById("modalBody").innerHTML = `
+    <span class="eyebrow">BESİN KARTI</span>
+    <div class="detail-emoji">${food.emoji}</div>
+    <h2 id="modalTitle">${food.name}</h2>
+    <p>${food.description}</p>
+    <h3>Besin öğeleri karşılaştırması</h3>
+    <p style="font-size:.9rem">Çubuklar yaklaşık, eğitim amaçlı karşılaştırma puanlarıdır; 100 gram için kesin laboratuvar verisi değildir.</p>
+    ${bars}`;
+  document.getElementById("foodModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.querySelector("#foodModal .close").focus();
+}
+function closeModal() {
+  document.getElementById("foodModal").classList.remove("open");
+  document.body.style.overflow = "";
+  if (lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
+}
+function outsideModal(event) {
+  if (event.target.id === "foodModal") closeModal();
+}
+function renderNutrients() {
+  document.getElementById("nutrientGrid").innerHTML = Object.entries(nutrients).map(([key,n]) => `
+    <article class="nutrient-card">
+      <div style="font-size:2.2rem">${n.emoji}</div>
+      <h3>${n.name}</h3>
+      <div class="color-strip" style="background:${n.color}"></div>
+      <p>${n.description}</p>
+      <strong>3 besin örneği:</strong>
+      <ol class="top-three">${n.examples.map(e=>`<li>${e}</li>`).join("")}</ol>
+      <button class="btn" onclick="showPage('foods');document.getElementById('foodFilter').value='${key}';renderFoods()">Bu öğeyi içeren besinler →</button>
+    </article>`).join("");
+}
+function renderOptions() {
+  const query = document.getElementById("sortSearch").value.trim().toLocaleLowerCase("tr");
+  const available = foods.filter(f => f.name.toLocaleLowerCase("tr").includes(query));
+  document.getElementById("foodOptions").innerHTML = available.map(f => {
+    const selected = selectedFoods.has(f.id);
+    const blocked = !selected && selectedFoods.size >= 6;
+    return `<button class="food-option ${selected ? "selected" : ""}" ${blocked ? "disabled" : ""} onclick="toggleFood('${f.id}')">${selected ? "✓ " : ""}${f.emoji} ${f.name}</button>`;
+  }).join("");
+  document.getElementById("selectedCount").textContent = `${selectedFoods.size} / 6 besin seçildi`;
+}
+function toggleFood(id) {
+  if (selectedFoods.has(id)) selectedFoods.delete(id);
+  else if (selectedFoods.size < 6) selectedFoods.add(id);
+  renderOptions();
+}
+function clearSelection() {
+  selectedFoods.clear();
+  renderOptions();
+  document.getElementById("rankingResult").innerHTML = `<p class="empty">Seçimlerin temizlendi. Yeni bir sıralama oluşturabilirsin.</p>`;
+}
+function makeRanking() {
+  if (selectedFoods.size < 3) {
+    document.getElementById("rankingResult").innerHTML = `<div class="hint">⚠️ Sıralama oluşturmak için en az <strong>3 besin</strong> seçmelisin. Şu anda ${selectedFoods.size} besin seçili.</div>`;
+    return;
+  }
+  const key = document.getElementById("sortNutrient").value;
+  const chosen = foods.filter(f => selectedFoods.has(f.id));
+  chosen.sort((a,b) => b.values[key] - a.values[key] || a.name.localeCompare(b.name,"tr"));
+  document.getElementById("rankingResult").innerHTML = `
+    <h3 style="margin-top:22px">🏆 ${nutrients[key].name} sıralaman</h3>
+    <p>Büyük değerden küçük değere doğru:</p>
+    <ol class="result-list">${chosen.map(f => `
+      <li><span>${f.emoji} ${f.name}</span><span class="value">${f.values[key]}/100</span></li>`).join("")}</ol>
+    <p style="font-size:.85rem">Bu sonuçlar eğitim amaçlı yaklaşık karşılaştırma puanlarına dayanır; gerçek besin değerleri çeşide, miktara ve hazırlanma şekline göre değişebilir.</p>
+    <button class="btn" onclick="makeRanking()">Yeniden sırala ↻</button>`;
+}
+document.getElementById("foodSearch").addEventListener("input", renderFoods);
+document.getElementById("foodFilter").addEventListener("change", renderFoods);
+document.getElementById("sortSearch").addEventListener("input", renderOptions);
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+renderGroups();
+renderFoods();
+renderNutrients();
+renderOptions();
+</script>
+</body>
+</html>
